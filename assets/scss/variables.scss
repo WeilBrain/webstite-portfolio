@@ -1,0 +1,37 @@
+$greenMain: #55e5a4;
+$bcDark: #151C25;
+$bcWhite:  #f0f0f4;
+$grayOpacity: #a9a9;
+$white: #fff;
+$whiteFontBlack: #26313F;
+$whiteFontBlackOpacity: #686565;
+
+@mixin largeFont400 {
+  font-weight: 400;
+  font-size: 4.2rem;
+}
+
+@mixin largeFont700{
+  font-weight: 700;
+  font-size: 4.2rem;
+}
+
+@mixin mediumFont400 {
+  font-weight: 400;
+  font-size: 2.2rem;
+}
+
+@mixin mediumFont500 {
+  font-weight: 500;
+  font-size: 2.2rem;
+}
+
+@mixin smallFont500 {
+  font-weight: 500;
+  font-size: 1.6rem;
+}
+
+@mixin smallFont700 {
+  font-weight: 700;
+  font-size: 1.2rem;
+}

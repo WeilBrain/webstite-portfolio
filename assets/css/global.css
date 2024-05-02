@@ -1,0 +1,28 @@
+@import './reset.css';
+@import './normalize.css';
+
+*{
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: 'Urbanist', sans-serif;
+    overflow-y: hidden;
+}
+
+.container{
+    max-width: 120rem;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.dark-mode body{
+    background-color: #151C25;
+}
+.light-mode body{
+    background-color: #f0f0f4;
+}

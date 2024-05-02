@@ -1,19 +1,19 @@
 <template>
   <template v-if="props.btnLinkActive">
-    <NuxtLink :to="props.linkTo" class="btn" :class="{'btn__transparent': props.transparent}">
+    <NuxtLink :to="props.linkTo" class="btn" :class="{'btn__transparent': props.transparent}" @click="emitButtonClick(props.index)">
       {{ props.text }}
     </NuxtLink>
   </template>
 
   <template v-else>
-    <button class="btn" :class="{'btn__transparent': props.transparent}">
+    <button class="btn" :class="{'btn__transparent': props.transparent}" @click="emitButtonClick(props.index)">
       {{ props.text }}
     </button>
   </template>
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
   text: String,
@@ -25,13 +25,17 @@ const props = defineProps({
   linkTo: {
     type: String,
     default: '',
-  }
+  },
+  index: Number
 });
-</script>
 
-<style scoped>
-/* Ваши стили для кнопки */
-</style>
+const emit = defineEmits(['buttonClick']);
+
+const emitButtonClick = (index: number) => {
+  emit('buttonClick', index);
+};
+
+</script>
 
 
 <style scoped lang="scss">

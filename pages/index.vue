@@ -17,7 +17,7 @@
               </li>
               <li class="nav__item nav__btn">
                 <div v-for="(item, index) in navItems" :key="index" class="item__link item__btn">
-                  <btn :text="item.text" :transparent="item.transparent" :btnLinkActive="item.btnLinkActive" :linkTo="item.linkTo" />
+                  <btn :text="item.text" :transparent="item.transparent" :btnLinkActive="item.btnLinkActive" :linkTo="item.linkTo" :index="index" @buttonClick="handleButtonClick" />
                 </div>
               </li>
               <li class="nav__item">
@@ -30,7 +30,6 @@
   <header class="header mobile" :class="{ 'menu-open': isMenuOpen }">
     <div class="container">
       <nav class="nav">
-        <!-- Логотип -->
         <div class="logo-container">
           <logo class="logo header__logo" @click.stop="showModal = true"/>
           <transition name="fade">
@@ -44,18 +43,16 @@
           </transition>
         </div>
 
-        <!-- Бургер-меню -->
         <div class="burger-menu" @click="toggleMenu">
           <div class="burger-line"></div>
           <div class="burger-line"></div>
           <div class="burger-line"></div>
         </div>
 
-        <!-- Список навигации -->
         <ul class="nav__list">
           <li class="nav__item">
-            <div v-for="(item, index) in navItems" :key="index" class="item__link">
-              <btn :text="item.text" :transparent="item.transparent" :btnLinkActive="item.btnLinkActive" :linkTo="item.linkTo" />
+            <div v-for="(item, index) in navItems" :key="index" class="item__link item__btn">
+              <Btn :text="item.text" :transparent="item.transparent" :btnLinkActive="item.btnLinkActive" :index="index" @buttonClick="handleButtonClick" />
             </div>
           </li>
           <li class="nav__item">
@@ -66,6 +63,10 @@
     </div>
   </header>
   <main>
+    <div class="arrow-4" v-if="realIndex != 2">
+      <span class="arrow-4-left"></span>
+      <span class="arrow-4-right"></span>
+    </div>
     <Swiper
         class="swiper"
         :modules="[SwiperMousewheel, SwiperPagination, SwiperKeyboard]"
@@ -74,11 +75,11 @@
         :pagination="{clickable: true,}"
         keyboard
         mousewheel
-
         :height="1000"
+        @swiper="onSwiper"
     >
       <SwiperSlide class="swiper_slide">
-        <section class="biography">
+        <section class="biography" :style="{ backgroundImage: shouldChangeBackground ? backgroundImage : 'none' }">
           <div class="container">
             <div class="biography__wrapper">
               <div class="biography__content">
@@ -106,7 +107,7 @@
       </SwiperSlide>
 
       <SwiperSlide class="swiper_slide">
-        <section class="about">
+        <section class="about" id="about" :style="{ backgroundImage: shouldChangeBackground ? backgroundImage : 'none' }">
           <div class="container">
             <div class="about__wrapper">
               <div class="about__image">
@@ -126,7 +127,9 @@
                       :text="item.text"
                       :alt="item.alt"/>
                 </div>
-                <btn text="Скачть резюме"/>
+                <div class="about__btn">
+                  <btn text="Скачать резюме"/>
+                </div>
               </div>
             </div>
           </div>
@@ -134,7 +137,7 @@
       </SwiperSlide>
 
       <SwiperSlide class="swiper_slide">
-        <section class="project">
+        <section class="project" id="projects" :style="{ backgroundImage: shouldChangeBackground ? backgroundImage : 'none' }">
           <div class="last-container">
             <div class="project__wrapper">
               <div class="project__head">
@@ -146,6 +149,7 @@
               </div>
             </div>
           </div>
+          <button class="secret__btn" @click="toggleBackground"></button>
         </section>
       </SwiperSlide>
     </Swiper>
@@ -169,12 +173,56 @@ const colorMode = useColorMode()
 
 console.log(colorMode.preference)
 
-
 const isMenuOpen = ref(false);
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
+
+
+
+import { Swiper, SwiperSlide } from 'swiper/vue';
+
+let realIndex = ref(0);
+
+let swiperInstance = 0;
+
+const onSwiper = (swiper) => {
+  swiperInstance = swiper;
+  swiper.on('slideChange', () => {
+    realIndex.value = swiper.realIndex;
+  });
+};
+
+const project = () => {
+  swiperInstance.slideTo(2);
+}
+const about = () => {
+  swiperInstance.slideTo(1);
+}
+
+const handleButtonClick = (index: number) => {
+  if (index === 0) {
+    about();
+  } else if (index === 1) {
+    project();
+  }
+};
+
+
+
+
+
+const shouldChangeBackground = ref(false);
+
+// Ссылка на изображение фона
+const backgroundImage = ref('url("/a1.jpeg")');
+
+// Функция для изменения состояния переменной shouldChangeBackground
+const toggleBackground = () => {
+  shouldChangeBackground.value = true;
+};
+
 </script>
 
 <style lang="scss">
@@ -200,6 +248,11 @@ const toggleMenu = () => {
   top: 15%;
 }
 
+
+.biography, .about, .project{
+  background-position: center;
+  background-size: cover;
+}
 
 // На вопрос тех почему я указал по одному тегу, а не через запятую все сразу. Переключатель цвета так не работал.
 .dark-mode .biography {
@@ -275,9 +328,7 @@ const toggleMenu = () => {
   align-items: center;
   display: flex;
 }
-.item__btn:not(:last-child){
-  padding-right: 4.5rem;
-}
+
 .item__logo{
   cursor: pointer;
   height: 6rem;
@@ -735,6 +786,16 @@ const toggleMenu = () => {
     width: 25%;
     margin-bottom: 4rem;
   }
+  .about__info{
+    max-width: 90%;
+  }
+  .about__btn{
+    display: flex;
+    justify-content: center;
+  }
+  .about__who::before{
+    top: 30%;
+  }
 }
 
 .dark-mode .item__switch{
@@ -753,6 +814,9 @@ const toggleMenu = () => {
   }
   .about__description{
     font-size: 1.5rem;
+  }
+  .about__info{
+    max-width: 90%;
   }
 }
 @media (max-width: 479px) {
@@ -776,5 +840,101 @@ const toggleMenu = () => {
     width: 6rem;
     height: 6rem;
   }
+}
+
+
+
+@keyframes arrowAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px); /* Движение вверх */
+  }
+  100% {
+    transform: translateY(0); /* Возвращение вниз */
+  }
+}
+.arrow-4 {
+  animation: arrowAnimation 2s infinite;
+  position: absolute;
+  z-index: 2;
+  bottom: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 66px;
+  height: 30px;
+}
+.arrow-4-left {
+  position: absolute;
+  background-color: transparent;
+  top: 10px;
+  left: 0;
+  width: 40px;
+  height: 10px;
+  display: block;
+  transform: rotate(35deg);
+  float: right;
+  border-radius: 2px;
+}
+.arrow-4-left:after {
+  content: "";
+  background-color: #337AB7;
+  width: 40px;
+  height: 10px;
+  display: block;
+  float: right;
+  border-radius: 6px 10px 10px 6px;
+  transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 0.8);
+  z-index: -1;
+}
+
+.arrow-4-right {
+  position: absolute;
+  background-color: transparent;
+  top: 10px;
+  left: 26px;
+  width: 40px;
+  height: 10px;
+  display: block;
+  transform: rotate(-35deg);
+  float: right;
+  border-radius: 2px;
+}
+.arrow-4-right:after {
+  content: "";
+  background-color: #337AB7;
+  width: 40px;
+  height: 10px;
+  display: block;
+  float: right;
+  border-radius: 10px 6px 6px 10px;
+  transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 0.8);
+  z-index: -1;
+}
+
+
+.dark-mode .arrow-4-right:after{
+  background-color: $greenMain;
+}
+.dark-mode .arrow-4-left:after{
+  background-color: $greenMain;
+}
+
+.light-mode .arrow-4-right:after{
+  background-color: black;
+}
+.light-mode .arrow-4-left:after{
+  background-color: black;
+}
+
+
+.secret__btn{
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  bottom: 20%;
+  width: 2rem;
+  padding: 10rem 4rem 10rem 5rem;
 }
 </style>

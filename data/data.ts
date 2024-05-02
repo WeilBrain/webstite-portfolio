@@ -1,8 +1,9 @@
 export const navItems = ([
-    { text: 'Обо мне', transparent: false },
-    { text: 'Проекты', transparent: false },
+    { text: 'Обо мне', transparent: false},
+    { text: 'Проекты', transparent: false},
     { text: 'Связаться', transparent: true, btnLinkActive: true, linkTo: 'https://t.me/XDoctype' },
 ]);
+
 
 export const stackData = ([
     {text: 'Nuxt', img: '/icon/nuxt.svg', alt: 'Nuxt icon'},

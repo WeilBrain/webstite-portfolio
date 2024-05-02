@@ -82,7 +82,7 @@
           <div class="container">
             <div class="biography__wrapper">
               <div class="biography__content">
-                <h1 class="biography__name">Егор Адодин</h1>
+<!--                <h1 class="biography__name">Егор Адодин</h1>-->
                 <h2 class="biography__head">
                   Frontend & Backend developer
                 </h2>

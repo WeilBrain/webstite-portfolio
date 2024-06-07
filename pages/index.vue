@@ -17,7 +17,7 @@
               </li>
               <li class="nav__item nav__btn">
                 <div v-for="(item, index) in navItems" :key="index" class="item__link item__btn">
-                  <btn :text="item.text" :transparent="item.transparent" :btnLinkActive="item.btnLinkActive" :linkTo="item.linkTo" :index="index" @buttonClick="handleButtonClick" />
+                  <btn class="nav__item-btn"  :text="item.text" :transparent="item.transparent" :btnLinkActive="item.btnLinkActive" :linkTo="item.linkTo" :index="index" @buttonClick="handleButtonClick" />
                 </div>
               </li>
               <li class="nav__item">
@@ -79,11 +79,11 @@
         @swiper="onSwiper"
     >
       <SwiperSlide class="swiper_slide">
-        <section class="biography" :style="{ backgroundImage: shouldChangeBackground ? backgroundImage : 'none' }">
+        <section class="biography">
           <div class="container">
             <div class="biography__wrapper">
               <div class="biography__content">
-<!--                <h1 class="biography__name">Егор Адодин</h1>-->
+                <h1 class="biography__name">Егор Адодин</h1>
                 <h2 class="biography__head">
                   Frontend & Backend developer
                 </h2>
@@ -91,7 +91,7 @@
                   Я — разработчик фронтенда и бэкенда, специализирующийся на создании впечатляющих веб-приложений и сайтов. Мой опыт включает работу с различными фреймворками и технологиями, что позволяет мне создавать уникальные и инновационные решения для веб-разработки.
                 </p>
                 <div class="biography__contact">
-                  <btn text="Написать"/>
+                  <btn :btnLinkActive="true" link-to="https://t.me/XDoctype" text="Написать"/>
                   <div class="biography__animate">
                     <div class="circle"></div>
                     <span class="biography__collab">Готов к сотрудничеству</span>
@@ -107,7 +107,7 @@
       </SwiperSlide>
 
       <SwiperSlide class="swiper_slide">
-        <section class="about" id="about" :style="{ backgroundImage: shouldChangeBackground ? backgroundImage : 'none' }">
+        <section class="about" id="about">
           <div class="container">
             <div class="about__wrapper">
               <div class="about__image">
@@ -137,7 +137,7 @@
       </SwiperSlide>
 
       <SwiperSlide class="swiper_slide">
-        <section class="project" id="projects" :style="{ backgroundImage: shouldChangeBackground ? backgroundImage : 'none' }">
+        <section class="project" id="projects">
           <div class="last-container">
             <div class="project__wrapper">
               <div class="project__head">
@@ -149,7 +149,6 @@
               </div>
             </div>
           </div>
-          <button class="secret__btn" @click="toggleBackground"></button>
         </section>
       </SwiperSlide>
     </Swiper>
@@ -207,20 +206,6 @@ const handleButtonClick = (index: number) => {
   } else if (index === 1) {
     project();
   }
-};
-
-
-
-
-
-const shouldChangeBackground = ref(false);
-
-// Ссылка на изображение фона
-const backgroundImage = ref('url("/a1.jpeg")');
-
-// Функция для изменения состояния переменной shouldChangeBackground
-const toggleBackground = () => {
-  shouldChangeBackground.value = true;
 };
 
 </script>
@@ -290,13 +275,13 @@ const toggleBackground = () => {
 
 
 .biography{
-  height: 100vh;
+  height: 100lvh;
 }
 .about{
-  height: 100vh;
+  height: 100lvh;
 }
 .project{
-  height: 100vh;
+  height: 100lvh;
 }
 .swiper, .swiper_slide{
   height: 100%;
@@ -306,7 +291,7 @@ const toggleBackground = () => {
 .header{
   position: fixed;
   left: 0;
-  top: 2rem;
+  padding-top: 2rem;
   z-index: 2;
   width: 100%;
 
@@ -377,7 +362,6 @@ const toggleBackground = () => {
   cursor: pointer;
 }
 
-
 .biography {
   display: flex;
   align-items: center;
@@ -425,6 +409,10 @@ const toggleBackground = () => {
     color: #888;
   }
 }
+.item__btn:not(:last-child){
+  margin-right: 3.6rem;
+}
+
 
 .biography {
   &__image {
@@ -653,7 +641,76 @@ const toggleBackground = () => {
   width: 100%;
 }
 
+@keyframes arrowAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+    opacity: 50%;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.arrow-4 {
+  animation: arrowAnimation 2s infinite;
+  position: absolute;
+  z-index: 2;
+  bottom: 45px;
+  left: 45%;
+  right: 45%;
+  transform: translate(-50%, -45%);
+  width: 66px;
+  height: 30px;
+}
+.arrow-4-left {
+  position: absolute;
+  background-color: transparent;
+  top: 10px;
+  left: 0;
+  width: 40px;
+  height: 10px;
+  display: block;
+  transform: rotate(35deg);
+  float: right;
+  border-radius: 2px;
+}
+.arrow-4-left:after {
+  content: "";
+  background-color: #337AB7;
+  width: 40px;
+  height: 10px;
+  display: block;
+  float: right;
+  border-radius: 6px 10px 10px 6px;
+  transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 0.8);
+  z-index: -1;
+}
 
+.arrow-4-right {
+  position: absolute;
+  background-color: transparent;
+  top: 10px;
+  left: 26px;
+  width: 40px;
+  height: 10px;
+  display: block;
+  transform: rotate(-35deg);
+  float: right;
+  border-radius: 2px;
+}
+.arrow-4-right:after {
+  content: "";
+  background-color: #337AB7;
+  width: 40px;
+  height: 10px;
+  display: block;
+  float: right;
+  border-radius: 10px 6px 6px 10px;
+  transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 0.8);
+  z-index: -1;
+}
 
 @media (max-width: 1140px){
   .biography__wrapper{
@@ -702,7 +759,10 @@ const toggleBackground = () => {
     cursor: pointer;
     z-index: 999; /* Поместить поверх содержимого */
   }
-
+  .circle{
+    width: 2rem;
+    height: 1.5rem;
+  }
   .burger-line {
     width: 30px;
     height: 3px;
@@ -783,7 +843,7 @@ const toggleBackground = () => {
     grid-template-columns: repeat(4, 1fr);
   }
   .about__image{
-    width: 25%;
+    width: 33%;
     margin-bottom: 4rem;
   }
   .about__info{
@@ -796,6 +856,7 @@ const toggleBackground = () => {
   .about__who::before{
     top: 30%;
   }
+
 }
 
 .dark-mode .item__switch{
@@ -834,85 +895,54 @@ const toggleBackground = () => {
     font-size: 1.6rem;
   }
   .biography__animate{
-    padding-left: 2rem;
+    margin-top: 2rem;
+    padding-left: 0;
+    justify-content: center;
   }
   .about__image::before, .about__image::after {
     width: 6rem;
     height: 6rem;
   }
-}
-
-
-
-@keyframes arrowAnimation {
-  0% {
-    transform: translateY(0);
+  .about__image{
+    width: 40%;
   }
-  50% {
-    transform: translateY(-10px); /* Движение вверх */
+  .biography__contact{
+    flex-direction: column;
+    align-items: stretch;
   }
-  100% {
-    transform: translateY(0); /* Возвращение вниз */
+  .circle{
+    width: 1.5rem;
   }
-}
-.arrow-4 {
-  animation: arrowAnimation 2s infinite;
-  position: absolute;
-  z-index: 2;
-  bottom: 45px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 66px;
-  height: 30px;
-}
-.arrow-4-left {
-  position: absolute;
-  background-color: transparent;
-  top: 10px;
-  left: 0;
-  width: 40px;
-  height: 10px;
-  display: block;
-  transform: rotate(35deg);
-  float: right;
-  border-radius: 2px;
-}
-.arrow-4-left:after {
-  content: "";
-  background-color: #337AB7;
-  width: 40px;
-  height: 10px;
-  display: block;
-  float: right;
-  border-radius: 6px 10px 10px 6px;
-  transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 0.8);
-  z-index: -1;
+  .biography__collab{
+    font-size: 1.3rem;
+  }
+  .arrow-4 {
+    right: 40%;
+    left: 40%;
+    transform: translate(40%, 40%);
+  }
+
+  .about__description{
+    padding-bottom: 2rem;
+  }
+  .about__stack{
+    padding-bottom: 2.5rem;
+  }
 }
 
-.arrow-4-right {
-  position: absolute;
-  background-color: transparent;
-  top: 10px;
-  left: 26px;
-  width: 40px;
-  height: 10px;
-  display: block;
-  transform: rotate(-35deg);
-  float: right;
-  border-radius: 2px;
+@media (max-width: 420px){
+  .biography__image{
+    margin-bottom: 1rem;
+    max-width: 20rem;
+    max-height: 20rem;
+  }
+  .arrow-4{
+    bottom: 15px
+  }
+  .about__description{
+    font-size: 1.4rem;
+  }
 }
-.arrow-4-right:after {
-  content: "";
-  background-color: #337AB7;
-  width: 40px;
-  height: 10px;
-  display: block;
-  float: right;
-  border-radius: 10px 6px 6px 10px;
-  transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 0.8);
-  z-index: -1;
-}
-
 
 .dark-mode .arrow-4-right:after{
   background-color: $greenMain;

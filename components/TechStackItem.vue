@@ -36,16 +36,19 @@ const props = defineProps(['img', 'text', 'alt'])
 
 @media (max-width: 768px){
   .tech {
-    &__wrapper {
-    }
-
     &__img {
       width: 3rem;
       height: 3rem;
     }
+  }
+}
 
+@media (max-width: 480px){
+  .tech {
     &__text {
+      font-size: 1.4rem;
     }
   }
 }
+
 </style>

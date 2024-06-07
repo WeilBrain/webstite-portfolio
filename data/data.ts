@@ -27,7 +27,7 @@ export const cardData1 =
             { icon: '/icon/pinia.svg', alt: 'Pinia' },
             { icon: '/icon/express.svg', alt: 'Express' },
         ],
-        gitHubLink: 'https://github.com'
+        gitHubLink: 'https://github.com/WeilBrain/NuxtOnlineShop'
     }
 
 
@@ -44,5 +44,5 @@ export const cardData2 =
             { icon: '/icon/pinia.svg', alt: 'Pinia' },
             { icon: '/icon/express.svg', alt: 'Express' },
         ],
-        gitHubLink: 'https://github.com'
+        gitHubLink: 'https://github.com/WeilBrain/CRM-System'
     }
